@@ -34,6 +34,7 @@ body, html{
     font-size: 100px;
     line-height: 158px;
     color: #000000;
+    position:relative;
 }
 
 .inner-cell{
@@ -53,8 +54,23 @@ body, html{
 .outer-cell.O {background-color:#d8345f;}
 .outer-cell.O:after {content: 'O';}
 
-.outer-cell.X {background-color: #3D5A80;}
-.outer-cell.X:after{content: 'X';}
+.cover {
+    width: 171px;
+    height: 171px;
+    position:absolute;
+    border: none;
+    left: -3px;
+    top: -3px;
+    border-radius:10px;
+    opacity: 0.8;
+    pointer-events: none;
+    color: white;
+}
+.cover.X{background-color: #5a89be;}
+.cover.X:after{content: 'X';}
+.cover.O{background-color: #d8345f;}
+.cover.O:after{content: 'O';}
+.hover{opacity: 0.2;}
 
 .inner-cell.O {background-color:#d8345f;}
 .inner-cell.O:after {content: 'O';}

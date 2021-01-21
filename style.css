@@ -3,11 +3,8 @@ body, html{
     margin: 0;
     text-align: center;
     color: #000000;
+    background-color: #fff4e5;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-.info{
-    
 }
 
 .wrapper{
@@ -82,7 +79,13 @@ body, html{
 .inner-cell.X {background-color: #3D5A80;}
 .inner-cell.X:after{content: 'X';}
 
-.outer-cell.highlight {border-color: #000000;
-border-radius: 10px;
-/*border-width: 5px;*/}
+.outer-cell.highlight {
+    border-color: #000000;
+    border-radius: 10px;
+}
 .wrapper.highlight {border-color: #ff0000;}
+
+.info{
+    font-size: 30px;
+    color: black;
+}

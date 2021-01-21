@@ -22,6 +22,7 @@ const utictactoe = (function(){
             reset: function(){
                 this.element.classList.remove(this.value);
                 this.value = null;
+                this.magicsq =  0;
             }
         }
     }
@@ -39,10 +40,12 @@ const utictactoe = (function(){
             left: 9,
             inner: tempInnerCells,
             magicsq: 0, //magicsq[outer],
-            reset: function(){ 
+            reset: function(){
                 this.element.classList.remove(this.value);
+                this.element.classList.remove('highlight');
                 this.value = null;
-                //TODO: refresh the innner cell values
+                this.magicsq = 0;
+                this.left = 9;
             }
         }
     }
@@ -63,9 +66,9 @@ const utictactoe = (function(){
     document.getElementsByClassName('wrapper')[0].classList.add('highlight'); 
 
     function cellClick(evt, inner){
-        if(playing && 
-            innerCells[inner].value === null && 
-            (highlighted === null || highlighted === innerCells[inner].outPlace)){
+        if(playing && innerCells[inner].value === null && 
+        (highlighted === null || highlighted === innerCells[inner].outPlace)){
+
             if(highlighted !== null){
                 outerCells[highlighted].element.classList.remove('highlight');
             }
@@ -75,7 +78,6 @@ const utictactoe = (function(){
             innerCells[inner].magicsq = (turn === 'O' ? 1 : -1) * magicsq[innerCells[inner].inPlace]; //updates magicsq*[1 = O while -1 = X]
             toggleTurn(inner);
             checkInnerWinner(inner);
-            checkOuterWinner();
             turn = (turn === 'O' ? 'X' : 'O');
             if (checkOuterWinner()){
                 document.getElementsByClassName('info')[0].innerText = 'Turn: ' + turn;
@@ -103,6 +105,9 @@ const utictactoe = (function(){
                 outerCells[innerCells[inner].outPlace].value = winner; //update outer value
                 outerCells[innerCells[inner].outPlace].magicsq = (winner === 'O' ? 1 : -1) * magicsq[innerCells[inner].outPlace]; //updates magicsq*[1 = O while -1 = X]
             }
+            else if (outerCells[innerCells[inner].outPlace].left === 0){
+                outerCells[innerCells[inner].outPlace].value = "draw";
+            }
         }
     }
 
@@ -114,13 +119,13 @@ const utictactoe = (function(){
             playing = false;
             return false;
         }
-    
         //case 2: draw = there is no 2 in a row ==> all outercells has left = 0
-        var totalLeft = 0;
+        //better: draw = all outer has a value
+        var draw = true;
         for (i = 0; i < outerCells.length; i++){
-            totalLeft+=outerCells[i].left;
+            draw = draw && (outerCells[i].value !== null?true:false); //if one cell doesn't have a value then it will make draw false
         }
-        if (totalLeft === 0){
+        if (draw){
             document.getElementsByClassName('info')[0].innerText = 'DRAW!';
             playing = false;
             return false;
@@ -151,25 +156,22 @@ const utictactoe = (function(){
             winner = 'X'
         }
         return winner;
-        // if (tempCells[0].value !== null && tempCells[0].value === tempCells[1].value && tempCells[0].value === tempCells[2].value) winner = tempCells[0].value //1 row [0,1,2]
-        // else if (tempCells[3].value !== null && tempCells[3].value === tempCells[4].value && tempCells[4].value === tempCells[5].value) winner = tempCells[3].value //2 row [3,4,5]
-        // else if (tempCells[6].value !== null && tempCells[6].value === tempCells[7].value && tempCells[7].value === tempCells[8].value) winner = tempCells[6].value //3 row [6,7,8]
+    }
 
-        // else if (tempCells[0].value !== null && tempCells[0].value === tempCells[3].value && tempCells[3].value === tempCells[6].value) winner = tempCells[0].value //1 col [0,3,6]
-        // else if (tempCells[1].value !== null && tempCells[1].value === tempCells[4].value && tempCells[4].value === tempCells[7].value) winner = tempCells[1].value //2 col [1,4,7]
-        // else if (tempCells[2].value !== null && tempCells[2].value === tempCells[5].value && tempCells[5].value === tempCells[8].value) winner = tempCells[2].value //3 col [2,5,8]
-
-        // else if (tempCells[0].value !== null && tempCells[0].value === tempCells[4].value && tempCells[4].value === tempCells[8].value) winner = tempCells[0].value //left dia [0,4,8]
-        // else if (tempCells[2].value !== null && tempCells[2].value === tempCells[4].value && tempCells[4].value === tempCells[6].value) winner = tempCells[2].value //right dia [2,4,6]
-        // return winner;
-
-        // return  num[0]+num[1]+num[2]==15 ||
-        //         num[3]+num[4]+num[5]==15 ||
-        //         num[6]+num[7]+num[8]==15 ||
-        //         num[0]+num[3]+num[6]==15 ||
-        //         num[1]+num[4]+num[7]==15 ||
-        //         num[2]+num[5]+num[8]==15 ||
-        //         num[0]+num[4]+num[8]==15 ||
-        //         num[2]+num[4]+num[6]==15;
+    return {
+        restart: function() {
+            playing = true;
+            turn = 'O';
+            highlighted = null;
+            document.getElementsByClassName('wrapper')[0].classList.add('highlight'); 
+            document.getElementsByClassName('info')[0].innerTextinnerText = turn + '\'s TURN';
+            for (let index = 0; index < outerCells.length; index++) {
+                coverElements[index].classList.remove(outerCells[index].value);
+                outerCells[index].reset();
+            }
+            for (let index = 0; index <innerCells.length; index++){
+                innerCells[index].reset();
+            }
+        }
     }
 })();

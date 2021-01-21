@@ -6,6 +6,10 @@ body, html{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.info{
+    
+}
+
 .wrapper{
     display: inline-block;
     height: 525px;
@@ -24,7 +28,7 @@ body, html{
     padding: 3px;
     margin: 2px;
     border-radius: 10px;
-    border-width: 1px;
+    border-width: 2px;
     border: solid;
     border-color: #ffffff;
     background-color: #ffffff;
@@ -55,14 +59,14 @@ body, html{
 .outer-cell.O:after {content: 'O';}
 
 .cover {
-    width: 171px;
-    height: 171px;
+    width: 168px;
+    height: 168px;
     position:absolute;
     border: none;
-    left: -3px;
-    top: -3px;
+    left: -1px;
+    top: -1px;
     border-radius:10px;
-    opacity: 0.8;
+    opacity: 0.75;
     pointer-events: none;
     color: white;
 }
@@ -78,5 +82,7 @@ body, html{
 .inner-cell.X {background-color: #3D5A80;}
 .inner-cell.X:after{content: 'X';}
 
-.outer-cell.highlight {border-color: #ff0000;}
+.outer-cell.highlight {border-color: #000000;
+border-radius: 10px;
+/*border-width: 5px;*/}
 .wrapper.highlight {border-color: #ff0000;}

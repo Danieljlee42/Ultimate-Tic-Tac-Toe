@@ -73,13 +73,16 @@ const utictactoe = (function(){
             innerCells[inner].value = turn; 
             innerCells[inner].element.classList.add(turn); 
             toggleTurn(inner);
-            // checkInnerWinner(inner);
+            checkInnerWinner(inner);
             checkOuterWinner();
+            turn = (turn === 'O' ? 'X' : 'O');
+            if (checkOuterWinner()){
+                document.getElementsByClassName('info')[0].innerText = 'Turn: ' + turn;
+            }
         }
     }
 
     function toggleTurn(inner){
-        turn = (turn === 'O' ? 'X' : 'O');
         
         if (outerCells[innerCells[inner].inPlace].left === 0){ //if outercell has full innercell
             highlighted = null;
@@ -93,15 +96,61 @@ const utictactoe = (function(){
         //infoElement.innerText = turn + '\'s TURN';
     }
 
-    // function checkInnerWinner(inner){
-    //     if(outerCells[innerCells[inner].outPlace].value === null){
-    //         outerCells[innerCells[inner].outPlace].element.classList.add('');
-    //     }
-    // }
+    function checkInnerWinner(inner){
+        if(outerCells[innerCells[inner].outPlace].value === null){
+            let tempCells = outerCells[innerCells[inner].outPlace].inner;
+            let winner = null;
+            if (tempCells[0].value !== null && tempCells[0].value === tempCells[1].value && tempCells[0].value === tempCells[2].value) winner = tempCells[0].value //1 row [0,1,2]
+            else if (tempCells[3].value !== null && tempCells[3].value === tempCells[4].value && tempCells[4].value === tempCells[5].value) winner = tempCells[3].value //2 row [3,4,5]
+            else if (tempCells[6].value !== null && tempCells[6].value === tempCells[7].value && tempCells[7].value === tempCells[8].value) winner = tempCells[6].value //3 row [6,7,8]
 
-    function checkOuterWinner(){
+            else if (tempCells[0].value !== null && tempCells[0].value === tempCells[3].value && tempCells[3].value === tempCells[6].value) winner = tempCells[0].value //1 col [0,3,6]
+            else if (tempCells[1].value !== null && tempCells[1].value === tempCells[4].value && tempCells[4].value === tempCells[7].value) winner = tempCells[1].value //2 col [1,4,7]
+            else if (tempCells[2].value !== null && tempCells[2].value === tempCells[5].value && tempCells[5].value === tempCells[8].value) winner = tempCells[2].value //3 col [2,5,8]
 
+            else if (tempCells[0].value !== null && tempCells[0].value === tempCells[4].value && tempCells[4].value === tempCells[8].value) winner = tempCells[0].value //left dia [0,4,8]
+            else if (tempCells[2].value !== null && tempCells[2].value === tempCells[4].value && tempCells[4].value === tempCells[6].value) winner = tempCells[2].value //right dia [2,4,6]
+        
+            // if (tempCells[0].value !== null)
+            if (winner !== null){
+                coverElements[innerCells[inner].outPlace].classList.add(winner); //indicate cover
+                outerCells[innerCells[inner].outPlace].value = winner; //update outer value
+            }
+
+        }
     }
 
+    function checkOuterWinner(){
+        //case 1: a player wins = there is 3 in a row
+        tempCells = outerCells;
+        let winner = null;
+        if (tempCells[0].value !== null && tempCells[0].value === tempCells[1].value && tempCells[0].value === tempCells[2].value) winner = tempCells[0].value //1 row [0,1,2]
+        else if (tempCells[3].value !== null && tempCells[3].value === tempCells[4].value && tempCells[4].value === tempCells[5].value) winner = tempCells[3].value //2 row [3,4,5]
+        else if (tempCells[6].value !== null && tempCells[6].value === tempCells[7].value && tempCells[7].value === tempCells[8].value) winner = tempCells[6].value //3 row [6,7,8]
 
+        else if (tempCells[0].value !== null && tempCells[0].value === tempCells[3].value && tempCells[3].value === tempCells[6].value) winner = tempCells[0].value //1 col [0,3,6]
+        else if (tempCells[1].value !== null && tempCells[1].value === tempCells[4].value && tempCells[4].value === tempCells[7].value) winner = tempCells[1].value //2 col [1,4,7]
+        else if (tempCells[2].value !== null && tempCells[2].value === tempCells[5].value && tempCells[5].value === tempCells[8].value) winner = tempCells[2].value //3 col [2,5,8]
+
+        else if (tempCells[0].value !== null && tempCells[0].value === tempCells[4].value && tempCells[4].value === tempCells[8].value) winner = tempCells[0].value //left dia [0,4,8]
+        else if (tempCells[2].value !== null && tempCells[2].value === tempCells[4].value && tempCells[4].value === tempCells[6].value) winner = tempCells[2].value //right dia [2,4,6]
+        
+        if (winner !== null){
+            document.getElementsByClassName('info')[0].innerText = 'WINNER! '+winner;
+            playing = false;
+            return false;
+        }
+    
+        //case 2: draw = there is no 2 in a row ==> all outercells has left = 0
+        var totalLeft = 0;
+        for (i = 0; i < outerCells.length; i++){
+            totalLeft+=outerCells[i].left;
+        }
+        if (totalLeft === 0){
+            document.getElementsByClassName('info')[0].innerText = 'DRAW!';
+            playing = false;
+            return false;
+        }
+        return true;
+    }
 })();

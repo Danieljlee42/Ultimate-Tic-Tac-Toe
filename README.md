@@ -6,15 +6,15 @@ a regular Tic Tac Toe board there is another board in each space.
 
 ## Rules
 
-Win Condition of game: To win the outer board
+**Win Condition of game**: To win the outer board
 
-Rules: First note there exist an inner board and outer board which encloses the inner board.
+**Rules**: First note there exist an inner board and outer board which encloses the inner board.
 To win the inner board is just like classic Tic Tac Toe a player must have their marker three in a row would that be horizonatal, vertical, or diagonal.
 To win the outer board a player must win inner boards in a three in a row fasion. (hori, verti, diag)
 
-Placement: Where the opponent place their marker in the inner board indicates which inner board in the outer board you will palce a marker as a player.  
-1] If O places in the middle X must place their somewhere in the middle board.  
-2] If O place in a space where the inner board is full, X may put their marker anywhere in the board.  
+**Placement**: Where the opponent place their marker in the inner board indicates which inner board in the outer board you will palce a marker as a player.  
+**1]** If O places in the middle X must place their somewhere in the middle board.  
+**2]** If O place in a space where the inner board is full, X may put their marker anywhere in the board.  
 
 ## License
 

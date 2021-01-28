@@ -13,8 +13,8 @@ To win the inner board is just like classic Tic Tac Toe a player must have their
 To win the outer board a player must win inner boards in a three in a row fasion. (hori, verti, diag)
 
 Placement: 
-* Where the opponent place their marker in the inner board indicates which inner board in the outer board 
-* you will palce a marker as a player.
+- Where the opponent place their marker in the inner board indicates which inner board in the outer board 
+- you will palce a marker as a player.
 * 1] If O places in the middle X must place their somewhere in the middle board.
 * 2] If O place in a space where the inner board is full, X may put their marker anywhere in the board.
 
